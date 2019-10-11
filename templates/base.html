@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <head>
     <title>The Shop</title>
-    <link rel="stylesheet" src="static/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://bootswatch.com/4/sketchy/bootstrap.min.css'>
 </head>
 <body>
-    {% block content %}{% endblock %}
+    {% include 'navbar.html' %}
+
+    <div class='container'>
+
+        {% block content %}
+
+        <img src="https://i.kinja-img.com/gawker-media/image/upload/s--YI7yZKVr--/c_scale,f_auto,fl_progressive,q_80,w_800/xwlbkpfsjgrp9s9uic0p.jpg" alt="Lebron James">
+
+        {% endblock %}
+
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 </body>
