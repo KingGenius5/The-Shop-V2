@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>The Shop</h1>
+
+<a href="/new">New Player</a>
+
+<ul>
+{% for player in players %}
+
+    <li>
+        <a href="/player/{{player._id}}">{{player.name}}</a>
+    </li>
+
+{% endfor %}
+</ul>
+
+{% endblock %}

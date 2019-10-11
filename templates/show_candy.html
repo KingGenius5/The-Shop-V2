@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a href="/">Back to Home</a>
+
+<h1>Player: {{player.name}}</h1>
+
+<img src="{{player.img_url}}"><br>
+
+Pledge: ${{player.price}}
+
+<br><br>
+<a href="/edit/{{player._id}}">Edit Player</a>
+
+<br><br>
+<form action="/delete/{{player._id}}" method="POST">
+    <button type="submit">Delete Player</button>
+</form>
+
+{% endblock %}
