@@ -39,6 +39,11 @@ def show_player(player_id):
     player = players_collection.find_one({'_id': ObjectId(player_id)})
     return render_template('show_player.html', player=player)
 
+@app.route('/cans')
+def player_index():
+    """Show all players."""
+    return render_template('player_index.html', players=players_collection.find())
+
 @app.route('/edit/<player_id>', methods=['POST'])
 def update_player(player_id):
     """Edit page for a player."""
