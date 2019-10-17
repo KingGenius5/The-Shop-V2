@@ -1,0 +1,39 @@
+<!-- templates/partials/players_form.html -->
+<fieldset class="container m-0 p-0">
+    <legend>{{ title }}</legend>
+    <!-- TITLE -->
+    <p>
+        <label class='form-group' for='title'>Title</label><br>
+        <input class="form-control" id='title' type='text' name='title' value='{{ player.title }}' />
+    </p>
+
+    <!-- DESCRIPTION -->
+    <p>
+        <label class='form-group' for='description'>Description</label><br>
+        <input class="form-control" id='description' type='text' name='description' value='{{ player.description }}' />
+    </p>
+
+    <!-- VIDEO LINKS -->
+    <p>
+        <label class='form-group' for='images'>Image</label><br>
+        <p>Add an image url.</p>
+        <textarea class="form-control" id='images' name='images' rows='5' value='{{ player.image }}'>{{ "\n".join(player.images) }}</textarea>
+    </p>
+
+    <p>
+        <label class='form-group' for="price">Price</label><br>
+        <input class="form-control" id='price' name='price' value='{{ player.price }}' />
+    </p>
+
+    <div class='form-group'>
+    <select class="form-control" id="exampleFormControlSelect1" name='rating' value='{{ player.rating }}'>
+            <label for='rating'>Rating</label><br>
+            <option value="★ ☆ ☆ ☆ ☆">1 star</option>
+            <option value="★ ★ ☆ ☆ ☆">2 stars</option>
+            <option value="★ ★ ★ ☆ ☆">3 stars</option>
+            <option value="★ ★ ★ ★ ☆">4 stars</option>
+            <option value="★ ★ ★ ★ ★">5 stars</option>
+    </select>
+    </div>
+    <!-- BUTTON -->
+</fieldset>
