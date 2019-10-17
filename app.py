@@ -16,73 +16,91 @@ players_collection.drop()
 carts = db.carts
 carts.drop()
 
+'''
 
 db.players.insert_many([{'player_name': 'Lebron James', 'charity': 'Lebron James Foundation', 'pledge': 250, 'image': 'http://ih.constantcontact.com/fs054/1107137834319/img/72.jpg?a=1109948824771'},
                         {'player_name': 'Serge Ibaka', 'charity': 'Serge Ibaka Foundation', 'pledge': 150, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'},
                         {'player_name': 'Cena John', 'charity': 'What Foundation', 'pledge': 170, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'},
                         ])
+'''
 
 @app.route('/')
 def index():
     """Return homepage."""
     return render_template('index.html', players=players_collection.find())
 
-'''
-
-@app.route('/new')
-def new_player():
-    """Return new player creation page."""
-    return render_template('new_player.html')
-
-@app.route('/new', methods=['POST'])
-def create_player():
-    """Make a new player according to user's specifications."""
+@app.route('/player', methods=['POST'])
+def submit_player():
+    """Submit a new player."""
     player = {
-        'name': request.form.get('name'),
-        'price': request.form.get('price'),
-        'img_url': request.form.get('img_url')
+        'title': request.form.get('title'),
+        'description': request.form.get('description'),
+        'images': request.form.get('images'),
+        'rating': request.form.get('rating'),
+        'price': request.form.get('price')
+
     }
+    print(player)
     player_id = players_collection.insert_one(player).inserted_id
     return redirect(url_for('show_player', player_id=player_id))
+
+@app.route('/player/new')
+def new_player():
+    """Create a new player."""
+    return render_template('new_player.html', player={}, title='New Player')
 
 @app.route('/player/<player_id>')
 def show_player(player_id):
     """Show a single player."""
     player = players_collection.find_one({'_id': ObjectId(player_id)})
-    return render_template('show_player.html', player=player)
+    player_comments = comments.find({'player_id': ObjectId(player_id)})
+    return render_template('show_player.html', player=player, comments=player_comments)
 
-@app.route('/cans')
-def player_index():
-    """Show all players."""
-    return render_template('player_index.html', players=players_collection.find())
-
-@app.route('/edit/<player_id>', methods=['POST'])
-def update_player(player_id):
-    """Edit page for a player."""
-    new_player = {
-        'name': request.form.get('name'),
-        'price': request.form.get('price'),
-        'img_url': request.form.get('img_url')
-    }
-    players_collection.update_one(
-        {'_id': ObjectId(player_id)},
-        {'$set': new_player}
-    )
-    return redirect(url_for('show_player', player_id=player_id))
-
-@app.route('/edit/<player_id>', methods=['GET'])
+@app.route('/player/<players_id>/edit')
 def edit_player(player_id):
-    """Page to submit an edit on a player."""
+    """Show the edit form for a single player."""
     player = players_collection.find_one({'_id': ObjectId(player_id)})
-    return render_template('edit_player.html', player=player)
+    return render_template('edit_player.html', player=player, title='Edit Player')
 
-@app.route('/delete/<player_id>', methods=['POST'])
+
+@app.route('/player/<player_id>/delete', methods=['POST'])
 def delete_player(player_id):
-    """Delete a player."""
+    """Delete one player."""
     players_collection.delete_one({'_id': ObjectId(player_id)})
     return redirect(url_for('index'))
 
-'''
+@app.route('/player/comments', methods=['POST'])
+def new_comments():
+    """Submit a new comment."""
+    comment = {
+        'title': request.form.get('title'),
+        'content': request.form.get('content'),
+        'player_id': ObjectId(request.form.get('player_id'))
+    }
+    print(comment)
+    comment_id = comments.insert_one(comment).inserted_id
+    return redirect(url_for('show_player', player_id=request.form.get('player_id')))
+
+@app.route('/player/<comment_id>/delete', methods=['POST'])
+def delete_comments(comment_id):
+    """Submit a new comment."""
+    comments.delete_one({'_id': ObjectId(comment_id)})
+    return redirect(url_for('show_player', player_id=request.form.get('player_id')))
+
+@app.route('/player/<player_id>', methods=['POST'])
+def update_player(player_id):
+    """Submit an edited player/charity form."""
+    updated_player = {
+        'title': request.form.get('title'),
+        'description': request.form.get('description'),
+        'images': request.form.get('images').split(),
+        'rating': request.form.get('rating'),
+        'price': request.form.get('price')
+    }
+    players_collection.update_one(
+        {'_id': ObjectId(player_id)},
+        {'$set': updated_player})
+    return redirect(url_for('show_player', player_id=player_id))
 
 """
 ********** FOR BUILDING CART FUNCTION *********
