@@ -1,34 +1,49 @@
+<!-- templates/index.html -->
 {% extends 'base.html' %}
 
 {% block content %}
 
-<h1>The Shop</h1>
-
-  <div class='container'>
-      <div class='row'>
-          {% for player in players %}
-          <div class='col-md-4 col-sm-3'>
-              <div class='card'>
-                  <div class='card-block'>
-                      <img class="mongo-images" src={{player.image}} width='250' height='350'>
-                          <div class='middle'>
-                              <form method='POST' action='/player/{{ player._id }}/add'>
-                                  <button class='btn' type='submit'>Add To Cart</button>
-                              </form>
-                          </div>
-
-                      <div class='card-title'>
-                          <h4>{{ player.player_name }}</h4>
-                      </div>
-                      <div class='card-text'>
-                          <p>{{ player.charity }}</p>
-                          <p>{{ player.pledge }}</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          {% endfor %}
-      </div>
+<div class="row mb-4">
+  <div class="col">
+    <h1>Players</h1>
   </div>
+  <div class="col">
+      <a href='/player/new'><button class="btn btn-outline-primary float-right custom-button-outline ml-2" href='/player/new' type='submit'>New Player</button></a>
+</div>
+</div>
+</div>
+<div class="card-group">
+  <div class="container">
+
+    <div class="row">
+      {% for player in players %}
+
+      <div class="col-lg-3 col-md-6 mb-4">
+
+        <div class="card h-100">
+            <a href='/player/{{ player._id }}' class="player-title">
+          {% for image in player.images %}
+          <img src='{{ image }}' class="card-img-top">
+          {% endfor %}
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href='/player/{{ player._id }}' class="player-title">{{ player.title }}</a>
+            </h4>
+            <h5>{{ player.price }}</h5>
+            <p class="card-text">{{ player.description }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{ player.rating }}</small>
+          </div>
+        </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>
+
 
 {% endblock %}
