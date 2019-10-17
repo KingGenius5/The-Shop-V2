@@ -25,6 +25,8 @@ def index():
     """Return homepage."""
     return render_template('index.html', players=players_collection.find())
 
+'''
+
 @app.route('/new')
 def new_player():
     """Return new player creation page."""
@@ -77,6 +79,8 @@ def delete_player(player_id):
     """Delete a player."""
     players_collection.delete_one({'_id': ObjectId(player_id)})
     return redirect(url_for('index'))
+
+'''
 
 """
 ********** FOR BUILDING CART FUNCTION *********
