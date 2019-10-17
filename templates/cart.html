@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style='text-align: center;'>Cart</h1>
+</br>
+<div class='container'>
+<div class='row'>
+    {% for cart in carts %}
+    <div class='col-md-2'>
+        <div class='card w-30'>
+
+
+        <img class="mongo-images" src={{cart.image}} width='200' height='300'>
+        <p>
+            <div class='middle'>
+                <form method='POST' action='/carts/{{ cart._id }}/delete'>
+                    <input type='hidden'>
+                    <button class='btn' type='submit'>Remove</button>
+                </form>
+            </div>
+            <!-- <p>{{ cart.name }}</p> -->
+            <font size='3'>{{ cart.player }}</font>
+            </br>
+            <font size='2' color='DimGray'>{{ cart.charity }}</font>
+            <font size='2'><b>{{ cart.pledge }}</b></font>
+        </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+<footer>
+    <h3 style='text-align:right;'>Total: ${{total}}</h3>
+    <form method='POST' action='/checkout'>
+        <input type='hidden'>
+        <button class='btn-checkout' type='submit'>Checkout</button>
+    </form>
+
+</footer>
+{% endblock %}
