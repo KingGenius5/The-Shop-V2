@@ -1,17 +1,14 @@
+<!-- templates/new_player.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-
-<a href="/">Back to Home</a>
-
-<h1>New Player</h1>
-
-<form action="/new" method="POST">
-    Player Name: <input type="text" name="name"><br>
-    Pledge Price: <input type="number" name="price"><br>
-    Image URL: <input type="text" name="img_url"><br>
-
-    <button type="submit">Submit</button><br>
+<form method='POST' action='/player'>
+    {% include 'partials/players_form.html' %}
+    <div class="row p-0 m-0">
+            <p>
+                <button class="btn btn-primary custom-button" type='submit'>Save Player</button>
+                <a href='/'><button class="btn btn-outline-primary float-right custom-button-outline ml-2" href='/'>Cancel</button></a>
+            </p>
+        </div>
 </form>
-
 {% endblock %}

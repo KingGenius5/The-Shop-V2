@@ -1,16 +1,14 @@
+<!-- templates/edit_player.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-
-<a href="/">Back to Home</a>
-
-<h1>Edit Player</h1>
-
-<form action="/edit/{{player._id}}" method="POST">
-    Name of Player: <input type="text" name="name" value="{{player.name}}"><br>
-    Pledge Value : <input type="number" name="price" value="{{player.price}}"><br>
-    Image URL: <input type="text" name="img_url" value="{{player.img_url}}"><br>
-    <button type="submit">Submit</button><br>
+<form method='POST' action='/player/{{player._id}}'>
+    {% include 'partials/players_form.html' %}
+    <div class="row p-0 m-0">
+        <p>
+            <button class="btn btn-primary custom-button" type='submit'>Save Player</button>
+            <a href='/'><button class="btn btn-outline-primary float-right custom-button-outline ml-2" href='/'>Cancel</button></a>
+        </p>
+    </div>
 </form>
-
 {% endblock %}

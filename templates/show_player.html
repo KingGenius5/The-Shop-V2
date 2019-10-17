@@ -1,21 +1,53 @@
+<!-- templates/show_player.html -->
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="row mb-4">
 
-<a href="/">Back to Home</a>
+    <div class="col">
 
-<h1>Player: {{player.name}}</h1>
+        <a class="btn btn-outline-primary custom-button-outline" href="/" role="button">Back Home</a>
 
-<img src="{{player.img_url}}"><br>
+    </div>
+    <div class="col justify-content-end">
+        <form method='POST' action='/player/{{ player._id }}/delete'>
+            <button class="btn btn-outline-danger float-right" type='submit'>Delete</button>
+        </form>
+        <a href='/player/{{ player._id }}/edit'><button class="btn btn-outline-primary float-right custom-button-outline mr-2" href='/player/{{ player._id }}/edit' type='submit'>Edit</button></a>
 
-Cost: ${{player.price}}
 
-<br><br>
-<a href="/edit/{{player._id}}">Edit Player</a>
+    </div>
+</div>
+<div class="container">
 
-<br><br>
-<form action="/delete/{{player._id}}" method="POST">
-    <button type="submit">Delete Player</button>
-</form>
+    <div class="row">
+        <div class="col-md justify-content-center">
+            {% for image in player.images %}
+            <img src='{{ image }}' width="100%">
+            {% endfor %}
+        </div>
+        <div class="col-md">
+            <h1>{{ player.title }}</h1>
+            <h1 class="mb-5">{{ player.price }}</h1>
+            <p>{{ player.description }}</p>
+        </div>
+    </div>
+</div>
+<h2 class="pt-5">Reviews for {{ player.title }}</h2>
+<div class="container">
+<div class="row">
+        <div class="col pl-0">
+            {% for comment in comments %}
+            {% include 'partials/comment.html' %}
+            {% endfor %}
+        </div>
+        <div class="col-md-4 pr-0">
+            {% include 'partials/comment_form.html' %}
+
+        </div>
+
+    </div>
+</div>
+
 
 {% endblock %}
