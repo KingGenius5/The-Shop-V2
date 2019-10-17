@@ -30,4 +30,31 @@
 
 -->
 
+<div class='container'>
+    <div class='row'>
+        {% for player in players_collection %}
+        <div class='col-md-4 col-sm-3'>
+            <div class='card'>
+                <div class='card-block'>
+                    <img class="mongo-images" src={{player.image}} width='250' height='350'>
+                        <div class='middle'>
+                            <form method='POST' action='/player/{{ player._id }}/add'>
+                                <button class='btn' type='submit'>Add To Cart</button>
+                            </form>
+                        </div>
+
+                    <div class='card-title'>
+                        <h4>{{ player.player }}</h4>
+                    </div>
+                    <div class='card-text'>
+                        <p>{{ player.charity }}</p>
+                        <p>{{ player.pledge }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
