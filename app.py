@@ -17,8 +17,10 @@ carts = db.carts
 carts.drop()
 
 
-db.players.insert_many([{'player': 'Lebron James', 'charity': 'Lebron James Foundation', 'pledge': 250, 'image': 'http://ih.constantcontact.com/fs054/1107137834319/img/72.jpg?a=1109948824771'},
-                        {'player': 'Serge Ibaka', 'charity': 'Serge Ibaka Foundation', 'pledge': 150, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'}])
+db.players.insert_many([{'player_name': 'Lebron James', 'charity': 'Lebron James Foundation', 'pledge': 250, 'image': 'http://ih.constantcontact.com/fs054/1107137834319/img/72.jpg?a=1109948824771'},
+                        {'player_name': 'Serge Ibaka', 'charity': 'Serge Ibaka Foundation', 'pledge': 150, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'},
+                        {'player_name': 'Cena John', 'charity': 'What Foundation', 'pledge': 170, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'},
+                        ])
 
 @app.route('/')
 def index():

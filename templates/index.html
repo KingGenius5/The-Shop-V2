@@ -4,59 +4,31 @@
 
 <h1>The Shop</h1>
 
-<!-- Don't need link for now, until shop items are added
+  <div class='container'>
+      <div class='row'>
+          {% for player in players %}
+          <div class='col-md-4 col-sm-3'>
+              <div class='card'>
+                  <div class='card-block'>
+                      <img class="mongo-images" src={{player.image}} width='250' height='350'>
+                          <div class='middle'>
+                              <form method='POST' action='/player/{{ player._id }}/add'>
+                                  <button class='btn' type='submit'>Add To Cart</button>
+                              </form>
+                          </div>
 
-<a href="/new">New Player</a>
-
-
-
-<ul>
-{% for player in players %}
-
-    <li>
-        <a href="/player/{{player._id}}">{{player.name}}</a>
-    </li>
-
-{% endfor %}
-</ul>
-
--->
-
-<!-- Will move this out of the way for just a while.
-
-<div class='container'>
-
-    <img src="https://i.kinja-img.com/gawker-media/image/upload/s--YI7yZKVr--/c_scale,f_auto,fl_progressive,q_80,w_800/xwlbkpfsjgrp9s9uic0p.jpg" class="animated tada infinite" alt="Lebron James">
-
-</div>
-
--->
-
-<div class='container'>
-    <div class='row'>
-        {% for player in players %}
-        <div class='col-md-4 col-sm-3'>
-            <div class='card'>
-                <div class='card-block'>
-                    <img class="mongo-images" src={{player.image}} width='250' height='350'>
-                        <div class='middle'>
-                            <form method='POST' action='/player/{{ player._id }}/add'>
-                                <button class='btn' type='submit'>Add To Cart</button>
-                            </form>
-                        </div>
-
-                    <div class='card-title'>
-                        <h4>{{ player.player }}</h4>
-                    </div>
-                    <div class='card-text'>
-                        <p>{{ player.charity }}</p>
-                        <p>{{ player.pledge }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
+                      <div class='card-title'>
+                          <h4>{{ player.player_name }}</h4>
+                      </div>
+                      <div class='card-text'>
+                          <p>{{ player.charity }}</p>
+                          <p>{{ player.pledge }}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
 
 {% endblock %}
