@@ -123,7 +123,7 @@ def show_cart():
     total = 0
     print("showing cart")
     for i in range(len(total_price)):
-        total += int(total_price[i]["price"][1:])*int(total_price[i]["quantity"])
+        total += float(total_price[i]["price"][1:])*int(total_price[i]["quantity"])
         round(float(total), 2)
 
     return render_template('cart.html', carts=cart, total=total)
