@@ -113,13 +113,13 @@ def add_to_cart():
         "price": request.form.get('price')
     }
 
-    add_item = cart.insert_one(item).inserted_id
+    add_item = cart.insert_one(player).inserted_id
     return redirect(url_for('show_cart', add_item=add_item))
 
-@app.route('/cart/<item_id>/delete', methods=['POST'])
-def remove_from_cart(item_id):
+@app.route('/cart/<player_id>/delete', methods=['POST'])
+def remove_from_cart(player_id):
     '''Remove item from cart'''
-    cart.delete_one({'_id': ObjectId(item_id)})
+    cart.delete_one({'_id': ObjectId(player_id)})
 
     return redirect(url_for('show_cart'))
 
