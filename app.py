@@ -1,38 +1,25 @@
-from flask import Flask, render_template, redirect, url_for, request
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-from functools import reduce
 import os
+from flask import Flask, render_template, request, redirect, url_for
+from bson.objectid import ObjectId
+from pymongo import MongoClient
+
+host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/my_app_db')
+client = MongoClient(host=host)
+db = client.get_default_database()
+players = db.players
+comments = db.comments
 
 app = Flask(__name__)
 
-host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/my_app_db')
-client = MongoClient(host=f"{host}?retryWrites=false")
-db = client.get_default_database()
-
-#drop function in python helps remove rows based on labels/tags rather than numeric indexing, this will be great for our cart
-players_collection = db.players
-players_collection.drop()
-carts = db.carts
-carts.drop()
-comments = db.comments
-
-'''
-db.players.insert_many([{'player_name': 'Lebron James', 'charity': 'Lebron James Foundation', 'pledge': 250, 'image': 'http://ih.constantcontact.com/fs054/1107137834319/img/72.jpg?a=1109948824771'},
-                        {'player_name': 'Serge Ibaka', 'charity': 'Serge Ibaka Foundation', 'pledge': 150, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'},
-                        {'player_name': 'Cena John', 'charity': 'What Foundation', 'pledge': 170, 'image': 'https://pbs.twimg.com/profile_images/570015235500838912/s49_Or4n_400x400.jpeg'},
-                        ])
-'''
-
 @app.route('/')
 def index():
-    """Return homepage."""
-    return render_template('index.html', players=players_collection.find())
+    """Show all players on the homepage."""
+    return render_template('index.html', players=players.find())
 
-@app.route('/player', methods=['POST'])
+@app.route('/players', methods=['POST'])
 def submit_player():
     """Submit a new player."""
-    good_player = {
+    player = {
         'title': request.form.get('title'),
         'description': request.form.get('description'),
         'images': request.form.get('images'),
@@ -40,37 +27,37 @@ def submit_player():
         'price': request.form.get('price')
 
     }
-    print(good_player)
-    player_id = players_collection.insert_one(good_player).inserted_id
+    print(player)
+    player_id = players.insert_one(player).inserted_id
     return redirect(url_for('show_player', player_id=player_id))
 
-@app.route('/player/new')
+@app.route('/players/new')
 def new_player():
     """Create a new player."""
-    return render_template('new_player.html', good_player={}, title='New Player')
+    return render_template('new_player.html', player={}, title='New Player')
 
-@app.route('/player/<player_id>')
+@app.route('/players/<player_id>')
 def show_player(player_id):
     """Show a single player."""
-    good_player = players_collection.find_one({'_id': ObjectId(player_id)})
+    player = players.find_one({'_id': ObjectId(player_id)})
     player_comments = comments.find({'player_id': ObjectId(player_id)})
-    return render_template('show_player.html', good_player=good_player, comments=player_comments)
+    return render_template('show_player.html', player=player, comments=player_comments)
 
-@app.route('/player/<players_id>/edit')
+@app.route('/players/<player_id>/edit')
 def edit_player(player_id):
-    """Show the edit form for a single player."""
-    good_player = players_collection.find_one({'_id': ObjectId(player_id)})
-    return render_template('edit_player.html', good_player=good_player, title='Edit Player')
+    """Show the edit form for a player."""
+    player = players.find_one({'_id': ObjectId(player_id)})
+    return render_template('edit_player.html', player=player, title='Edit Player')
 
 
-@app.route('/player/<player_id>/delete', methods=['POST'])
+@app.route('/players/<player_id>/delete', methods=['POST'])
 def delete_player(player_id):
     """Delete one player."""
-    players_collection.delete_one({'_id': ObjectId(player_id)})
+    players.delete_one({'_id': ObjectId(player_id)})
     return redirect(url_for('index'))
 
-@app.route('/player/comments', methods=['POST'])
-def new_comments():
+@app.route('/players/comments', methods=['POST'])
+def comments_new():
     """Submit a new comment."""
     comment = {
         'title': request.form.get('title'),
@@ -81,15 +68,15 @@ def new_comments():
     comment_id = comments.insert_one(comment).inserted_id
     return redirect(url_for('show_player', player_id=request.form.get('player_id')))
 
-@app.route('/player/<comment_id>/delete', methods=['POST'])
-def delete_comments(comment_id):
-    """Submit a new comment."""
+@app.route('/players/<comment_id>/delete', methods=['POST'])
+def comments_delete(comment_id):
+    """Delete a comment."""
     comments.delete_one({'_id': ObjectId(comment_id)})
     return redirect(url_for('show_player', player_id=request.form.get('player_id')))
 
-@app.route('/player/<player_id>', methods=['POST'])
+@app.route('/players/<player_id>', methods=['POST'])
 def update_player(player_id):
-    """Submit an edited player/charity form."""
+    """Submit a newly edited player."""
     updated_player = {
         'title': request.form.get('title'),
         'description': request.form.get('description'),
@@ -97,10 +84,11 @@ def update_player(player_id):
         'rating': request.form.get('rating'),
         'price': request.form.get('price')
     }
-    players_collection.update_one(
+    players.update_one(
         {'_id': ObjectId(player_id)},
         {'$set': updated_player})
     return redirect(url_for('show_player', player_id=player_id))
+
 
 """
 ********** FOR BUILDING CART FUNCTION *********
@@ -148,6 +136,5 @@ def remove_from_cart(cart_id):
 
     return redirect(url_for('show_cart'))
 
-
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
+    app.run(debug=True)

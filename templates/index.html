@@ -5,45 +5,49 @@
 
 <div class="row mb-4">
   <div class="col">
-    <h1>Players</h1>
+    <h1>The Shop</h1>
   </div>
   <div class="col">
-      <a href='/player/new'><button class="btn btn-outline-primary float-right custom-button-outline ml-2" href='/player/new' type='submit'>New Player</button></a>
+      <a href='/players/new'><button class="btn btn-outline-primary float-right custom-button-outline ml-2" href='/players/new' type='submit'>New Player</button></a>
 </div>
+
 </div>
 </div>
 <div class="card-group">
   <div class="container">
 
     <div class="row">
-      {% for good_player in players %}
+      {% for player in players %}
 
       <div class="col-lg-3 col-md-6 mb-4">
 
         <div class="card h-100">
-            <a href='/player/{{ good_player._id }}' class="player-title">
-          {% for image in good_player.images %}
+            <a href='/players/{{ player._id }}' class="player-title">
+          {% for image in player.images %}
           <img src='{{ image }}' class="card-img-top">
           {% endfor %}
           <div class="card-body">
             <h4 class="card-title">
-              <a href='/player/{{ good_player._id }}' class="player-title">{{ good_player.title }}</a>
+              <a href='/players/{{ player._id }}' class="player-title">{{ player.title }}</a>
             </h4>
-            <h5>{{ good_player.price }}</h5>
-            <p class="card-text">{{ good_player.description }}</p>
+            <h5>{{ player.price }}</h5>
+            <p class="card-text">{{ player.description }}</p>
           </div>
           <div class="card-footer">
-            <small class="text-muted">{{ good_player.rating }}</small>
+            <small class="text-muted">{{ player.rating }}</small>
           </div>
         </a>
         </div>
       </div>
       {% endfor %}
     </div>
-
+    <!-- /.col-lg-9 -->
   </div>
+  <!-- /.row -->
 
 </div>
+<!-- /.container -->
+
 
 
 {% endblock %}
