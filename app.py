@@ -9,10 +9,6 @@ db = client.get_default_database()
 players = db.players
 comments = db.comments
 
-carst = db.carts
-players.drop()
-carts.drop()
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -98,7 +94,7 @@ def update_player(player_id):
 ********** FOR BUILDING CART FUNCTION *********
 """
 
-@app.route('/players/<player_id>/add', methods=['POST'])
+@app.route('/player/<player_id>/add', methods=['POST'])
 def add_to_cart(player_id):
     if carts.find_one({'_id': ObjectId(player_id)}):
         carts.update_one(
@@ -107,7 +103,7 @@ def add_to_cart(player_id):
         )
     else:
         carts.insert_one(
-            {**players.find_one({'_id': ObjectId(player_id)}), **{'quantity': 1}})
+            {**players_collection.find_one({'_id': ObjectId(player_id)}), **{'quantity': 1}})
 
     return redirect(url_for('show_cart'))
 

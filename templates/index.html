@@ -32,9 +32,6 @@
             </h4>
             <h5>{{ player.price }}</h5>
             <p class="card-text">{{ player.description }}</p>
-            <form method='POST' action='/players/{{ player._id }}/add'>
-              <button class='btn' type='submit'>Add To Cart</button>
-            </form>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{ player.rating }}</small>
