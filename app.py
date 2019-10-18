@@ -15,6 +15,7 @@ players_collection = db.players
 players_collection.drop()
 carts = db.carts
 carts.drop()
+comments = db.comments
 
 '''
 
