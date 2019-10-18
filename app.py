@@ -43,6 +43,7 @@ def new_player():
 @app.route('/players/<player_id>')
 def show_player(player_id):
     """Show a single player."""
+    print(player_id)
     player = players.find_one({'_id': ObjectId(player_id)})
     player_comments = comments.find({'player_id': ObjectId(player_id)})
     return render_template('show_player.html', player=player, comments=player_comments)
