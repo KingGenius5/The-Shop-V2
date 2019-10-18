@@ -79,6 +79,20 @@ def comments_delete(comment_id):
     comments.delete_one({'_id': ObjectId(comment_id)})
     return redirect(url_for('show_player', player_id=request.form.get('player_id')))
 
+@app.route('/players/<player_id>/add', methods=['POST'])
+def add_to_cart(player_id):
+    if carts.find_one({'_id': ObjectId(player_id)}):
+        carts.update_one(
+            {'_id': ObjectId(player_id)},
+            {'$inc': {'quantity': int(1)}}
+        )
+    else:
+        print(player_id)
+        carts.insert_one(
+            {**players.find_one({'_id': ObjectId(player_id)}), **{'quantity': 1}})
+
+    return redirect(url_for('show_cart'))
+
 @app.route('/players/<player_id>', methods=['POST'])
 def update_player(player_id):
     """Submit a newly edited player."""
@@ -99,19 +113,6 @@ def update_player(player_id):
 ********** FOR BUILDING CART FUNCTION *********
 """
 
-@app.route('/players/<player_id>/add', methods=['POST'])
-def add_to_cart(player_id):
-    if carts.find_one({'_id': ObjectId(player_id)}):
-        carts.update_one(
-            {'_id': ObjectId(player_id)},
-            {'$inc': {'quantity': int(1)}}
-        )
-    else:
-        print(player_id)
-        carts.insert_one(
-            {**players.find_one({'_id': ObjectId(player_id)}), **{'quantity': 1}})
-
-    return redirect(url_for('show_cart'))
 
 @app.route('/cart')
 def show_cart():
