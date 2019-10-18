@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Collecting all the things</h1>
+<h1>The Cart</h1>
 
 <table class="table table-striped">
     <thead>
@@ -11,12 +11,12 @@
         <th scope="col">Remove</th>
     </thead>
     <tbody>
-        {% for item in cart  %}
+        {% for player in cart  %}
             <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.price }}</td>
+                <td>{{ player.title }}</td>
+                <td>{{ player.price }}</td>
                 <!-- {{ item.quantity }} -->
-                <td><form method='POST' action='/cart/{{ item._id }}/delete'>
+                <td><form method='POST' action='/cart/{{ player._id }}/delete'>
                     <input type='hidden' name='_method' value='DELETE'>
                     <button class='btn btn-secondary btn-sm' type='submit'>Delete</button>
                 </form></td>
