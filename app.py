@@ -121,6 +121,7 @@ def show_cart():
     # This will display all products by looping through the database
     total_price = list(carts.find({}))
     total = 0
+    print("showing cart")
     for i in range(len(total_price)):
         total += total_price[i]["price"]*total_price[i]["quantity"]
         round(float(total), 2)
