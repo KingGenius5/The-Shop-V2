@@ -9,6 +9,10 @@ db = client.get_default_database()
 players = db.players
 comments = db.comments
 
+cart = db.cart
+players.drop()
+cart.drop()
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -94,45 +98,28 @@ def update_player(player_id):
 ********** FOR BUILDING CART FUNCTION *********
 """
 
-@app.route('/player/<player_id>/add', methods=['POST'])
-def add_to_cart(player_id):
-    if carts.find_one({'_id': ObjectId(player_id)}):
-        carts.update_one(
-            {'_id': ObjectId(player_id)},
-            {'$inc': {'quantity': int(1)}}
-        )
-    else:
-        carts.insert_one(
-            {**players_collection.find_one({'_id': ObjectId(player_id)}), **{'quantity': 1}})
-
-    return redirect(url_for('show_cart'))
-
 @app.route('/cart')
 def show_cart():
     """Show cart."""
-    cart = carts.find()
-    # This will display all products by looping through the database
-    total_price = list(carts.find({}))
-    total = 0
-    for i in range(len(total_price)):
-        total += total_price[i]["price"]*total_price[i]["quantity"]
-        round(float(total), 2)
+    carts = cart.find()
 
-    return render_template('cart.html', carts=cart, total=total)
+    return render_template('cart.html', cart=carts)
 
+@app.route('/cart', methods=['POST'])
+def add_to_cart():
+    '''Submit new item to cart'''
+    player = {
+        'title': request.form.get('title'),
+        "price": request.form.get('price')
+    }
 
-@app.route('/carts/<cart_id>/delete', methods=['POST'])
-def remove_from_cart(cart_id):
-    # This will delete a product by using an id as a parameter
-    """Remove one product from cart"""
-    cart_item  = carts.find_one({'_id': ObjectId(cart_id)})
-    carts.update_one(
-        {'_id': ObjectId(cart_id)},
-        {'$inc': {'quantity': -int(1)}}
-    )
+    add_item = cart.insert_one(item).inserted_id
+    return redirect(url_for('show_cart', add_item=add_item))
 
-    if cart_item['quantity']==1:
-        carts.remove({'_id': ObjectId(cart_id)})
+@app.route('/cart/<item_id>/delete', methods=['POST'])
+def remove_from_cart(item_id):
+    '''Remove item from cart'''
+    cart.delete_one({'_id': ObjectId(item_id)})
 
     return redirect(url_for('show_cart'))
 
