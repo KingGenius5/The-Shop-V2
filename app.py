@@ -32,7 +32,7 @@ def index():
 @app.route('/player', methods=['POST'])
 def submit_player():
     """Submit a new player."""
-    player = {
+    good_player = {
         'title': request.form.get('title'),
         'description': request.form.get('description'),
         'images': request.form.get('images'),
@@ -40,27 +40,27 @@ def submit_player():
         'price': request.form.get('price')
 
     }
-    print(player)
-    player_id = players_collection.insert_one(player).inserted_id
+    print(good_player)
+    player_id = players_collection.insert_one(good_player).inserted_id
     return redirect(url_for('show_player', player_id=player_id))
 
 @app.route('/player/new')
 def new_player():
     """Create a new player."""
-    return render_template('new_player.html', player={}, title='New Player')
+    return render_template('new_player.html', good_player={}, title='New Player')
 
 @app.route('/player/<player_id>')
 def show_player(player_id):
     """Show a single player."""
-    player = players_collection.find_one({'_id': ObjectId(player_id)})
+    good_player = players_collection.find_one({'_id': ObjectId(player_id)})
     player_comments = comments.find({'player_id': ObjectId(player_id)})
-    return render_template('show_player.html', player=player, comments=player_comments)
+    return render_template('show_player.html', good_player=good_player, comments=player_comments)
 
 @app.route('/player/<players_id>/edit')
 def edit_player(player_id):
     """Show the edit form for a single player."""
-    player = players_collection.find_one({'_id': ObjectId(player_id)})
-    return render_template('edit_player.html', player=player, title='Edit Player')
+    good_player = players_collection.find_one({'_id': ObjectId(player_id)})
+    return render_template('edit_player.html', good_player=good_player, title='Edit Player')
 
 
 @app.route('/player/<player_id>/delete', methods=['POST'])

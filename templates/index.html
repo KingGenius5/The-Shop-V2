@@ -16,24 +16,24 @@
   <div class="container">
 
     <div class="row">
-      {% for player in players %}
+      {% for good_player in players %}
 
       <div class="col-lg-3 col-md-6 mb-4">
 
         <div class="card h-100">
-            <a href='/player/{{ player._id }}' class="player-title">
-          {% for image in player.images %}
+            <a href='/player/{{ good_player._id }}' class="player-title">
+          {% for image in good_player.images %}
           <img src='{{ image }}' class="card-img-top">
           {% endfor %}
           <div class="card-body">
             <h4 class="card-title">
-              <a href='/player/{{ player._id }}' class="player-title">{{ player.title }}</a>
+              <a href='/player/{{ good_player._id }}' class="player-title">{{ good_player.title }}</a>
             </h4>
-            <h5>{{ player.price }}</h5>
-            <p class="card-text">{{ player.description }}</p>
+            <h5>{{ good_player.price }}</h5>
+            <p class="card-text">{{ good_player.description }}</p>
           </div>
           <div class="card-footer">
-            <small class="text-muted">{{ player.rating }}</small>
+            <small class="text-muted">{{ good_player.rating }}</small>
           </div>
         </a>
         </div>
