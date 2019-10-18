@@ -106,6 +106,7 @@ def add_to_cart(player_id):
             {'$inc': {'quantity': int(1)}}
         )
     else:
+        print(player_id)
         carts.insert_one(
             {**players.find_one({'_id': ObjectId(player_id)}), **{'quantity': 1}})
 
