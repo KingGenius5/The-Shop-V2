@@ -9,7 +9,7 @@
     <div class='col-md-2'>
         <div class='card w-30'>
 
-        <img class="mongo-images" src={{cart.images}} width='200' height='300'>
+        <img class="mongo-images" src={{cart.image}} width='200' height='300'>
         <p>
             <div class='middle'>
                 <form method='POST' action='/carts/{{ cart._id }}/delete'>
@@ -20,7 +20,7 @@
 
             <font size='3'>{{ cart.title }}</font>
             </br>
-            <font size='2' color='DimGray'>{{ cart.price }}</font>
+            <font size='2' color='black'>{{ cart.price }}</font>
             <font size='2'><b>{{ cart.description }}</b></font>
         </p>
         </div>
