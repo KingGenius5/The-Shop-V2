@@ -94,7 +94,7 @@ def update_player(player_id):
     updated_player = {
         'title': request.form.get('title'),
         'description': request.form.get('description'),
-        'images': request.form.get('images').split(),
+        'images': request.form.get('images'),
         'rating': request.form.get('rating'),
         'price': request.form.get('price')
     }
