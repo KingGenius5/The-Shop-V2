@@ -28,7 +28,8 @@ def submit_player():
         'description': request.form.get('description'),
         'images': request.form.get('images'),
         'rating': request.form.get('rating'),
-        'price': request.form.get('price')
+        'price': request.form.get('price'),
+        'social': request.form.get('social')
 
     }
     print(player)
@@ -101,7 +102,9 @@ def update_player(player_id):
         'description': request.form.get('description'),
         'images': request.form.get('images').split(),
         'rating': request.form.get('rating'),
-        'price': request.form.get('price')
+        'price': request.form.get('price'),
+        'social': request.form.get('social')
+
     }
     players.update_one(
         {'_id': ObjectId(player_id)},
@@ -118,10 +121,11 @@ def update_player(player_id):
 def show_cart():
     """Show cart."""
     cart = carts.find()
-    # This will display all products by looping through the database
+
     total_price = list(carts.find({}))
     total = 0
     print("showing cart")
+    #Thanks and huge shoutout to Vincenzo for teaching/guiding me as well as fixing my cart function
     for i in range(len(total_price)):
         total += float(total_price[i]["price"][1:])*int(total_price[i]["quantity"])
         round(float(total), 2)
