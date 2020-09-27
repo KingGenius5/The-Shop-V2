@@ -7,3 +7,10 @@ pledge to their charity. I hope to expand it so that it works on both ends (admi
 and authentication to keep track of the charities you're donating to.
 
 ![The home page of the store, known as The Shop](https://github.com/KingGenius5/The-Shop-V2/blob/master/Home-Page.jpg?raw=true)
+
+
+## Technologies
+
+Flask
+Python
+HTML & CSS
