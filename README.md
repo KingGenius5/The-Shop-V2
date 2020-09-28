@@ -1,5 +1,9 @@
 THE SHOP
 
+A website of charities helmed by different NBA players. They are more than an athlete.
+
+## Inspiration
+
 My inspiration for this project was drawn out of the need to get athletes recognized for the good work they do outside of
 the respective sport they play. It's a work in progress but I plan on expanding on it. Currently, it works almost like a
 regular store where you add store items but rather here you add Players and the "price" is the amount you're willing to
