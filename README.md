@@ -18,3 +18,5 @@ and authentication to keep track of the charities you're donating to.
 Flask
 Python
 HTML & CSS
+
+## How to Use It
